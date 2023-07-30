@@ -1,0 +1,79 @@
+﻿@model ML.Paciente
+@{
+    ViewBag.Title = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <h2 style="text-align:center"><strong>Lista de Pacientes</strong></h2>
+        <h4>Para agregar un registro presiona el boton verde.</h4>
+        <h4>Para actualizar un registro presiona el boton amarillo.</h4>
+        <h4>Para eliminar un registro presiona el boton rojo.</h4>
+        <div class="col-md-1">
+            @Html.ActionLink("Agregar", "Form", "Paciente", htmlAttributes: new { @class = "btn btn-success" })
+        </div>
+    </div>
+
+    <br />
+    <hr />
+    <br />
+
+    <div class="row">
+        @if (Model.Pacientes != null)
+        {
+            <div class="">
+                <table class="table table-responsive table-hover">
+                    <thead>
+                        <tr>
+                            <th>Editar</th>
+                            <th>Id Paciente</th>
+                            <th>Nombre</th>
+                            <th>Apellido Paterno</th>
+                            <th>ApellidoMaterno</th>
+                            <th>Fecha de Nacimiento</th>
+                            <th>Fecha de Ingreso</th>
+                            <th>Id Tipo Sangre</th>
+                            <th>Tipo de Sangre</th>
+                            <th>Sexo</th>
+                            <th>Sintomas</th>
+                            <th>Eliminar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (ML.Paciente paciente in Model.Pacientes)
+                        {
+                            <tr>
+                                <td>
+                                    <a class="btn btn-warning glyphicon glyphicon-pencil" 
+                                       href="@Url.Action("Form", "Paciente", new {IdPaciente = paciente.IdPaciente})"></a>
+                                </td>
+                                <td>@paciente.IdPaciente</td>
+                                <td>@paciente.Nombre</td>
+                                <td>@paciente.AP</td>
+                                <td>@paciente.AM</td>
+                                <td>@paciente.FechaNacimiento</td>
+                                <td>@paciente.FechaIngreso</td>
+                                <td>@paciente.TipoSangre.IdTipoSangre</td>
+                                <td>@paciente.TipoSangre.Nombre</td>
+                                <td>@paciente.Sexo</td>
+                                <td>@paciente.Sintomas</td>
+                                <td>
+                                    <a href="@Url.Action("Delete", "Paciente", new {IdPaciente=paciente.IdPaciente})" 
+                                       onclick="return confirm('¿Estas seguro que deseas eliminar estos datos?');">
+                                        <button type="button" class="btn btn-danger glyphicon glyphicon-trash"></button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-danger" role="alert">
+                @ViewBag.Message
+            </div>
+        }
+    </div>
+</div>
